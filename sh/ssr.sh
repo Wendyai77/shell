@@ -264,8 +264,8 @@ Set_config_port(){
 }
 Set_config_password(){
 	echo "请输入要设置的ShadowsocksR账号 密码"
-	read -e -p "(默认: Doudou123):" ssr_password
-	[[ -z "${ssr_password}" ]] && ssr_password="Doudou123"
+	read -e -p "(默认: Wendy123):" ssr_password
+	[[ -z "${ssr_password}" ]] && ssr_password="Wendy123"
 	echo && echo ${Separator_1} && echo -e "	密码 : ${Green_font_prefix}${ssr_password}${Font_color_suffix}" && echo ${Separator_1} && echo
 }
 Set_config_method(){
@@ -557,9 +557,9 @@ Write_configuration_many(){
     "local_port": 1080,
 
     "port_password":{
-        "19527":"Doudou123",
-        "12023":"Doudou123",
-        "12024":"Doudou123"
+        "19527":"Wendy123",
+        "19528":"Wendy123",
+        "19529":"Wendy123"
     },
     "method": "aes-256-cfb",
     "protocol": "origin",
@@ -611,9 +611,10 @@ Debian_apt(){
 # 下载 ShadowsocksR
 Download_SSR(){
 	cd "/usr/local/"
-	wget "http://103.39.218.74:12345/software/SSR/manyuser.zip"
+	wget --no-check-certificate "https://gitee.com/wendyai77/software/raw/master/server/wendy/ssr/manyuser.zip"
+    # wget --no-check-certificate "http://103.39.218.74:12345/software/SSR/manyuser.zip"
 	#git config --global http.sslVerify false
-	#env GIT_SSL_NO_VERIFY=true git clone -b manyuser http://111.45.30.47:12345/ssr/shadowsocksr.git
+	#env GIT_SSL_NO_VERIFY=true git clone -b manyuser http://103.39.218.74:12345/software/SSR/manyuser.zip
 	#[[ ! -e ${ssr_folder} ]] && echo -e "${Error} ShadowsocksR服务端 下载失败 !" && exit 1
 	[[ ! -e "manyuser.zip" ]] && echo -e "${Error} ShadowsocksR服务端 压缩包 下载失败 !" && rm -rf manyuser.zip && exit 1
 	unzip "manyuser.zip"
@@ -628,7 +629,7 @@ Download_SSR(){
 }
 Service_SSR(){
 	if [[ ${release} = "centos" ]]; then
-		if ! wget --no-check-certificate http://103.39.218.74:12345/software/SSR/ssr -O /etc/init.d/ssr; then
+		if ! wget --no-check-certificate https://gitee.com/wendyai77/software/raw/master/server/wendy/ssr/ssrml.sh -O /etc/init.d/ssr; then
 			echo -e "${Error} ShadowsocksR服务 管理脚本下载失败 !" && exit 1
 		fi
 		chmod +x /etc/init.d/ssr
@@ -649,10 +650,10 @@ JQ_install(){
 		cd "${ssr_folder}"
 		if [[ ${bit} = "x86_64" ]]; then
 			mv "jq-linux64" "jq"
-			#wget --no-check-certificate "http://103.39.218.74:12345/software/SSR/jq-linux64" -O ${jq_file}
+			#wget --no-check-certificate "https://gitee.com/wendyai77/software/raw/master/server/wendy/ssr/jq-linux64" -O ${jq_file}
 		else
 			mv "jq-linux32" "jq"
-			#wget --no-check-certificate "http://103.39.218.74:12345/software/SSR/jq-linux32" -O ${jq_file}
+			#wget --no-check-certificate "https://gitee.com/wendyai77/software/raw/master/server/wendy/ssr/jq-linux32" -O ${jq_file}
 		fi
 		[[ ! -e ${jq_file} ]] && echo -e "${Error} JQ解析器 重命名失败，请检查 !" && exit 1
 		chmod +x ${jq_file}
